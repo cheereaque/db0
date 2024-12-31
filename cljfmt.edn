@@ -1,0 +1,28 @@
+{:parallel? true
+ :remove-surrounding-whitespace? true
+ :remove-trailing-whitespace? true
+ :remove-consecutive-blank-lines? true
+ :insert-missing-whitespace? true
+ :remove-multiple-non-indenting-spaces? true
+ :max-consecutive-blank-lines 1
+ :function-arguments-indentation :community
+ :sort-ns-references? true
+ :test-code
+ (fn []
+   (ns t
+     (:require [b.core :as b]
+               [a.core :as a]
+               [z.core :as z]))
+   (or
+    1
+    2)
+   (require
+    [b.test :as b-a]
+    [b [z :as z]
+     [a :as a]]
+    [b.core :as b])
+   (let [x 1] nil)
+   (println 123)
+
+   (println 222))}
+

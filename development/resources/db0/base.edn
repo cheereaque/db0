@@ -1,0 +1,23 @@
+{:duct.profile/base
+ {:duct.core/project-ns db0
+
+  ;; logger
+  :db0.logger.integrant/logger
+  {:type :console
+   :pretty? true}
+
+  ;; http-server
+  :db0.http-server.interface/http-server
+  {:port 3000
+   :routes [["/api"
+             ["/v1"
+              ["/ping" {:summary "ping"
+                        :get {:handler #ig/ref :db0.api.handler/ping}}]]]]
+   :logger #ig/ref :db0.logger.integrant/logger}
+
+;; api
+  :db0.api.handler/ping {}}
+
+ :duct.profile/dev #duct/include "development"
+ :duct.profile/local #duct/include "local"
+ :duct.profile/prod {}}
