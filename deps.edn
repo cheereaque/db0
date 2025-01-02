@@ -4,6 +4,10 @@
         ; Components
         poly/http-server {:local/root "components/http-server"}
         poly/logger {:local/root "components/logger"}
+        poly/filesystem {:local/root "components/filesystem"}
+
+        poly/database {:local/root "components/database"}
+        poly/table {:local/root "components/table"}
 
         ; Libraries
         duct/core {:mvn/version "0.8.0"}
@@ -19,9 +23,11 @@
  :aliases {:dev {:extra-paths ["development/src"
                                "development/resources"]
 
-                 :extra-deps {}}
+                 :extra-deps {djblue/portal {:mvn/version "0.58.5"}}}
 
-           :test {:extra-paths []}
+           :test {:extra-paths []
+
+                  :extra-deps {scenari/scenari {:mvn/version "1.5.0"}}}
 
            :outdated {:deps {com.github.liquidz/antq {:mvn/version "RELEASE"}}
                       :main-opts ["-m" "antq.core"]}

@@ -6,17 +6,28 @@
   {:type :console
    :pretty? true}
 
+  ;; database-registry
+  :db0.database-registry.integrant/database-registry
+  {:logger #ig/ref :db0.logger.integrant/logger}
+
   ;; http-server
   :db0.http-server.interface/http-server
   {:port 3000
    :routes [["/api"
              ["/v1"
               ["/ping" {:summary "ping"
-                        :get {:handler #ig/ref :db0.api.handler/ping}}]]]]
+                        :get {:handler #ig/ref :db0.api.handler/ping}}]
+              ["/databases" {:summary "obtain database list"
+                             :get {:handler #ig/ref :db0.api.handler/databases}}]
+              ["/database/:name" {:summary "create database"
+                                  :put {:parameters {:path {:name s/Str}}
+                                        :handler #ig/ref :db0.api.handler/create-database}}]]]]
+
    :logger #ig/ref :db0.logger.integrant/logger}
 
-;; api
-  :db0.api.handler/ping {}}
+  :db0.api.handler/ping {}
+  :db0.api.handler/databases {}
+  :db0.api.handler/create-database {}}
 
  :duct.profile/dev #duct/include "development"
  :duct.profile/local #duct/include "local"
