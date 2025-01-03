@@ -23,6 +23,9 @@ runs:
         curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh &&
         chmod +x linux-install.sh &&
         sudo ./linux-install.sh
+    
+    - name: Install dependencies
+      run: make dependencies
 
     - name: Check to see if dependencies should be cached
       if: ${{ contains(github.event.head_commit.message, '[ci nocache]') }}
