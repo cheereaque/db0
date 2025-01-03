@@ -40,6 +40,7 @@ runs:
         path: |
           ~/.m2
           ~/.gitlibs
+          ~/.clojure
         key: ${{ runner.os }}-${{ inputs.m2-cache-key }}-${{ hashFiles('**/deps.edn') }}
         restore-keys: |
           ${{ runner.os }}-${{ inputs.m2-cache-key }}-

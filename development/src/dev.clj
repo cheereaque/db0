@@ -2,7 +2,6 @@
   (:refer-clojure :exclude [test])
   (:require [clojure.tools.namespace.repl :refer [set-refresh-dirs]]
             [duct.core :as duct]
-            [integrant.core :as ig]
             [integrant.repl :as repl]
             [portal.api :as p]))
 

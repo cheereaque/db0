@@ -25,9 +25,9 @@
 
                  :extra-deps {djblue/portal {:mvn/version "0.58.5"}}}
 
-           :test {:extra-paths ["components/filesystem"]
+           :test {:extra-paths []
 
-                  :extra-deps {midje/midje {:mvn/version "1.10.10"}}}
+                  :extra-deps {}}
 
            :outdated {:deps {com.github.liquidz/antq {:mvn/version "RELEASE"}}
                       :main-opts ["-m" "antq.core"]}

@@ -25,10 +25,10 @@ outdated:
 outdated-fix:
 	@clojure -M:outdated --upgrade --force
 
+.PHONY: check  # Run polylith check
+check:
+	@clojure -M:poly check
+
 .PHONY: test  # Run tests with coverage
 test:
-	@clojure -Srepro -M:poly test :dev
-
-.PHONY: poly-check  # Run polylith check
-poly-check:
-	@clojure -M:poly check
+	@clojure -M:poly test :all :dev
