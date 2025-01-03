@@ -10,7 +10,7 @@
         poly/table {:local/root "components/table"}
 
         ; Libraries
-        duct/core {:mvn/version "0.8.0"}
+        duct/core {:mvn/version "0.8.1"}
 
         org.clojure/clojure {:mvn/version "1.12.0"}
         org.clojure/tools.namespace {:mvn/version "1.5.0"}
@@ -25,13 +25,13 @@
 
                  :extra-deps {djblue/portal {:mvn/version "0.58.5"}}}
 
-           :test {:extra-paths []
-
-                  :extra-deps {scenari/scenari {:mvn/version "1.5.0"}}}
+           :test {:extra-paths ["components/filesystem/test"]
+                  :extra-deps {midje/midje {:mvn/version "1.10.10"}}}
 
            :outdated {:deps {com.github.liquidz/antq {:mvn/version "RELEASE"}}
                       :main-opts ["-m" "antq.core"]}
 
            :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
                   :extra-deps {polylith/clj-poly {:mvn/version "0.2.21"}}}}}
+
 

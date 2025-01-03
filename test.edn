@@ -1,0 +1,7 @@
+#kaocha/v1
+ {:tests [{:id :unit
+           :source-paths ["components/*/src"
+                          "bases/*/src"]
+           :test-paths ["components/*/test"
+                        "bases/*/test"]
+           :ns-patterns [".*-test$"]}]}
