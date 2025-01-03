@@ -31,4 +31,4 @@ jobs:
         m2-cache-key: db0-testing
 
     - name: Run tests
-      run: make test
+      run: clojure -M:poly test :dev
