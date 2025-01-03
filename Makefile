@@ -28,3 +28,7 @@ outdated-fix:
 .PHONY: test  # Run tests with coverage
 test:
 	@clojure -M:poly test :dev
+
+.PHONY: poly-check  # Run polylith check
+poly-check:
+	@clojure -M:poly check

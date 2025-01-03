@@ -19,6 +19,19 @@ jobs:
 
     - name: Check outdated dependencies
       run: make outdated
+      
+  poly-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup backend environment
+      uses: ./.github/actions/setup-environment
+      with:
+        m2-cache-key: db0-environment
+
+    - name: Polylith check
+      run: make poly-check
 
   testing:
     runs-on: ubuntu-latest
