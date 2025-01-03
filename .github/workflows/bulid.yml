@@ -1,21 +1,34 @@
-name: Clojure CI
+name: pipeline
 
-on: [push]
-  # push:
-  #   branches: [ $default-branch ]
-  # pull_request:
-  #   branches: [ $default-branch ]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  build:
-
+  outdated-dependencies:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-    - name: Install dependencies
-      run: make dependencies
+
+    - name: Setup backend environment
+      uses: ./.github/actions/setup-backend
+      with:
+        m2-cache-key: db0-outdated
+
     - name: Check outdated dependencies
       run: make outdated
+
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup backend environment
+      uses: ./.github/actions/setup-backend
+      with:
+        m2-cache-key: db0-testing
+
     - name: Run tests
       run: make test
