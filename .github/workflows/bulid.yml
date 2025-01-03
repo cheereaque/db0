@@ -7,15 +7,15 @@ on:
     branches: [ "main" ]
 
 jobs:
-  outdated-dependencies:
+  setup-environment:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
 
     - name: Setup backend environment
-      uses: ./.github/actions/setup-backend
+      uses: ./.github/actions/setup-environment
       with:
-        m2-cache-key: db0-outdated
+        m2-cache-key: db0-environment
 
     - name: Check outdated dependencies
       run: make outdated
@@ -26,9 +26,9 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Setup backend environment
-      uses: ./.github/actions/setup-backend
+      uses: ./.github/actions/setup-environment
       with:
-        m2-cache-key: db0-testing
+        m2-cache-key: db0-environment
 
     - name: Run tests
-      run: clojure -M:poly test :dev
+      run: make test
