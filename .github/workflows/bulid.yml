@@ -44,4 +44,6 @@ jobs:
         m2-cache-key: db0-environment
 
     - name: Run tests
-      run: clojure -M:poly test :dev
+      run: |
+        set -x
+        clojure -M:poly test :dev
