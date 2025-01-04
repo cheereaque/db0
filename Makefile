@@ -15,7 +15,7 @@ help:
 
 .PHONY: dependencies  # Install basic, dev and test deps
 dependencies:
-	@clojure -P -M:dev:test:poly
+	@clojure -P -M:dev:test
 
 .PHONY: outdated  # Just check outdated deps
 outdated:
