@@ -5,4 +5,4 @@
 
 (deftest dummy-test
   (fact "fact1"
-        (+ 1 1) => 1))
+        (+ 1 1) => 2))
