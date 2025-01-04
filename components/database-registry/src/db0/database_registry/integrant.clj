@@ -8,5 +8,4 @@
 
 (defmethod ig/halt-key! ::database-registry
   [_ {:keys [logger]}]
-  (tap> {:database-registry-logger logger})
   (log logger ::database-registry-stopped {}))

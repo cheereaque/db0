@@ -12,7 +12,6 @@
     {:status 200 :body []}))
 
 (defmethod ig/init-key ::create-database
-  [& args]
-  (fn [& args*]
-    (tap> {:args args :args* args*})
+  [& _]
+  (fn [& _]
     {:status 200 :body []}))
