@@ -1,4 +1,4 @@
-name: pipeline
+name: db0
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     - name: Check outdated dependencies
       run: make outdated
       
-  project-check:
+  check-project:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
     - name: Project check
       run: make check
 
-  testing:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
