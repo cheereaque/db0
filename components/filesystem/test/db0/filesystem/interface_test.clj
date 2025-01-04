@@ -1,6 +1,8 @@
 (ns db0.filesystem.interface-test
-  (:require [clojure.test :refer [deftest is]]
-            [db0.filesystem.interface :as filesystem]))
+  (:require [clojure.test :refer [deftest]]
+            [db0.filesystem.interface :as filesystem]
+            [fudje.sweet :refer :all]))
 
 (deftest dummy-test
-  (is (= 1 2)))
+  (fact "fact1"
+        (+ 1 1) => 1))

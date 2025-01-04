@@ -20,7 +20,7 @@ jobs:
     - name: Check outdated dependencies
       run: make outdated
       
-  poly-check:
+  project-check:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -30,8 +30,8 @@ jobs:
       with:
         m2-cache-key: db0-environment
 
-    - name: Polylith check
-      run: make poly-check
+    - name: Project check
+      run: make check
 
   testing:
     runs-on: ubuntu-latest

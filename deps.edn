@@ -4,7 +4,7 @@
         ; Components
         poly/http-server {:local/root "components/http-server"}
         poly/logger {:local/root "components/logger"}
-        poly/filesystem {:local/root "components/filesystem"}
+        db0/filesystem {:local/root "components/filesystem"}
 
         poly/database {:local/root "components/database"}
         poly/table {:local/root "components/table"}
@@ -25,14 +25,28 @@
 
                  :extra-deps {djblue/portal {:mvn/version "0.58.5"}}}
 
-           :test {:extra-paths []
-
-                  :extra-deps {}}
+           :test {:main-opts ["-m" "kaocha.runner"]
+                  :extra-deps {;;
+                               ;;midje/midje {:mvn/version "1.10.10"}
+                               fudje/fudje {:mvn/version "0.9.8"}
+                               polylith-kaocha/kaocha-wrapper
+                               {:git/url "https://github.com/imrekoszo/polylith-kaocha"
+                                :git/tag "v0.8.4"
+                                :git/sha "f096de8"
+                                :deps/root "projects/kaocha-wrapper"}}}
 
            :outdated {:deps {com.github.liquidz/antq {:mvn/version "RELEASE"}}
                       :main-opts ["-m" "antq.core"]}
 
            :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
-                  :extra-deps {polylith/clj-poly {:mvn/version "0.2.21"}}}}}
+                  :extra-deps {polylith/clj-poly {:git/url "https://github.com/polyfy/polylith"
+                                                  :git/sha "aece34ab40255fd40038abbff79433fdf7cd5759"
+                                                  :deps/root "projects/poly"}
+
+                               polylith-kaocha/test-runner
+                               {:git/url "https://github.com/imrekoszo/polylith-kaocha"
+                                :git/tag "v0.8.4"
+                                :git/sha "f096de8"
+                                :deps/root "projects/test-runner"}}}}}
 
 
