@@ -26,9 +26,7 @@
                  :extra-deps {djblue/portal {:mvn/version "0.58.5"}}}
 
            :test {:main-opts ["-m" "kaocha.runner"]
-                  :extra-deps {;;
-                               ;;midje/midje {:mvn/version "1.10.10"}
-                               fudje/fudje {:mvn/version "0.9.8"}
+                  :extra-deps {fudje/fudje {:mvn/version "0.9.8"}
                                polylith-kaocha/kaocha-wrapper
                                {:git/url "https://github.com/imrekoszo/polylith-kaocha"
                                 :git/tag "v0.8.4"
@@ -42,7 +40,6 @@
                   :extra-deps {polylith/clj-poly {:git/url "https://github.com/polyfy/polylith"
                                                   :git/sha "aece34ab40255fd40038abbff79433fdf7cd5759"
                                                   :deps/root "projects/poly"}
-
                                polylith-kaocha/test-runner
                                {:git/url "https://github.com/imrekoszo/polylith-kaocha"
                                 :git/tag "v0.8.4"
