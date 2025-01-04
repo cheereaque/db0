@@ -1,0 +1,46 @@
+name: setup environment
+inputs:
+  java-version:
+    required: true
+    default: '21'
+  m2-cache-key:
+    description: 'Key to cache M2 packages from Maven Central'
+    required: true
+    default: 'm2'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setting up JDK ${{ inputs.java-version }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ inputs.java-version }}
+        distribution: 'temurin'
+
+    - name: Installing Clojure CLI
+      shell: bash
+      run: |
+        curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh &&
+        chmod +x linux-install.sh &&
+        sudo ./linux-install.sh
+    
+    - name: Install dependencies
+      run: make dependencies
+      shell: bash
+
+    - name: Check to see if dependencies should be cached
+      if: ${{ contains(github.event.head_commit.message, '[ci nocache]') }}
+      run: echo "Commit message includes [ci nocache]; dependencies will NOT be cached"
+      shell: bash
+
+    - name: Get M2 cache
+      uses: actions/cache@v4
+      if: ${{ !contains(github.event.head_commit.message, '[ci nocache]') }}
+      with:
+        path: |
+          ~/.m2
+          ~/.gitlibs
+          ~/.clojure
+        key: ${{ runner.os }}-${{ inputs.m2-cache-key }}-${{ hashFiles('**/deps.edn') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ inputs.m2-cache-key }}-

@@ -1,0 +1,10 @@
+{:parallel? true
+ :remove-surrounding-whitespace? true
+ :remove-trailing-whitespace? true
+ :remove-consecutive-blank-lines? true
+ :insert-missing-whitespace? true
+ :remove-multiple-non-indenting-spaces? true
+ :max-consecutive-blank-lines 1
+ :function-arguments-indentation :community
+ :sort-ns-references? true}
+

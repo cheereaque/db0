@@ -1,0 +1,47 @@
+name: db0
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  setup-environment:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup backend environment
+      uses: ./.github/actions/setup-environment
+      with:
+        m2-cache-key: db0-environment
+
+    - name: Check outdated dependencies
+      run: make outdated
+      
+  check-project:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup backend environment
+      uses: ./.github/actions/setup-environment
+      with:
+        m2-cache-key: db0-environment
+
+    - name: Project check
+      run: make check
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup backend environment
+      uses: ./.github/actions/setup-environment
+      with:
+        m2-cache-key: db0-environment
+
+    - name: Run tests
+      run: make test
