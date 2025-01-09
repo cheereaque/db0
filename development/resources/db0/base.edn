@@ -7,8 +7,8 @@
    :pretty? true}
 
   ;; database-registry
-  :db0.database-registry.integrant/database-registry
-  {:logger #ig/ref :db0.logger.integrant/logger}
+  ;; :db0.database-registry.integrant/database-registry
+  ;; {:logger #ig/ref :db0.logger.integrant/logger}
 
   ;; http-server
   :db0.http-server.interface/http-server

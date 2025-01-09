@@ -33,7 +33,8 @@ projects/**/pom.xml
 .lsp/.cache
 
 # clj-kondo
-.clj-kondo
+.clj-kondo/.cache
+.clj-kondo/imports
 
 # vscode
 settings.json
