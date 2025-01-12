@@ -39,10 +39,7 @@
                       :deps {com.github.liquidz/antq {:mvn/version "RELEASE"}}}
 
            :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
-                  :extra-deps {polylith/clj-poly
-                               {:git/url "https://github.com/polyfy/polylith"
-                                :git/sha "2d850fb1e0b77ae335a7bd8f96c8f2b2ca18b469"
-                                :deps/root "projects/poly"}
+                  :extra-deps {polylith/clj-poly {:mvn/version "0.2.21"}
 
                                polylith-kaocha/test-runner
                                {:git/url "https://github.com/imrekoszo/polylith-kaocha"
