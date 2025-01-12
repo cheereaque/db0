@@ -1,93 +1,101 @@
 (ns db0.filesystem.core
-  (:require [babashka.fs :as bfs]
+  (:require [clojure.java.io :as io]
             [clojure.spec.alpha :as s]
             [clojure.string :as str]
-            [db0.filesystem.interface :as ifs :refer [IFilesystem]]
-            [failjure.core :as f]))
+            [db0.fault.interface :refer [fault]]
+            [db0.filesystem.interface :as ifs :refer [IFilesystem]]))
 
-(s/def ::root-directory string?)
+(def ^:private filesystem-default-root
+  "/tmp/db0")
+
+(s/def ::root string?)
 (s/def ::cleanup? boolean?)
 
-(s/def ::config
-  (s/keys :opt-un [::root-directory
+(s/def ::fs
+  (s/keys :opt-un [::root
                    ::cleanup?]))
 
-(defn- not-blank?
-  [s]
-  (and (string? s)
-       (not (str/blank? s))))
-
-(defn- validate-path
-  [path]
-  (if (not-blank? path)
-    (f/try* (bfs/normalize path))
-    (f/fail "path is invalid: " path)))
-
 (defn- rootify
-  [root path]
-  (f/try* (f/ok->> path
-                   (validate-path)
-                   (bfs/path root))))
+  [{:keys [root]} path]
+  (io/file (str root "/" path)))
 
 (defrecord Filesystem
-           [config]
+           [fs]
 
   IFilesystem
 
-  (start!
-    [this]
-    (s/assert ::config this)
-    this)
-
-  (stop!
-    [this]
-    this)
-
   (create-directory!
-    [{:keys [config]} path]
-    (f/when-let-failed?
-     [_ (f/try* (f/ok->> path
-                         (rootify (:root-directory config))
-                         (bfs/create-dirs)))]
-     (f/fail (format "unable to create directory: '%s'" path))))
+    [{:keys [fs]} path]
+    (let [path* (rootify fs path)]
+      (try
+
+        (.mkdirs path*)
+
+        (catch Exception e
+          (fault ::filesystem-create-directory-error
+                 {:context {:path path*}
+                  :exception e})))))
 
   (create-directories!
     [this paths]
-    (let [fails (reduce
-                 (fn [fails path]
-                   (when (f/failed? (ifs/create-directory! this path))
-                     (conj fails path)))
-                 [] paths)]
-      (when-not (empty? fails)
-        (f/fail {::create-directories-errors fails}))))
+    (doseq [path paths]
+      (ifs/create-directory! this path)))
 
-  (valid-directory?
-    [{:keys [config]} path]
-    (let [root (:root-directory config)]
-      (f/ok? (rootify root path))))
+  (delete-directory!
+    [{:keys [fs] :as this} path]
+    (let [path* (rootify fs path)]
+      (try
+
+        (when (ifs/exists? this path)
+          (run! io/delete-file (reverse (file-seq path*))))
+
+        (catch Exception e
+          (fault ::filesystem-delete-directory-error
+                 {:context {:path path*}
+                  :exception e})))))
 
   (exists?
-    [{:keys [config]} path]
-    (let [root (:root-directory config)]
-      (bfs/exists? (rootify root path))))
+    [{:keys [fs]} path]
+    (.exists (rootify fs path)))
 
-  (->file
-    [{:keys [config]} path data options]
-    (let [path* (rootify (:root-directory config) path)
-          data* (.getBytes (String. data))]
-      ()
-      (f/when-let-failed?
-       [fail (f/try* (bfs/write-bytes path* data* options))]
-       (f/fail {::create-file-error {:path path*
-                                     :data data*
-                                     :options options
-                                     :fail fail}}))))
+  (write-file!
+    [{:keys [fs]} path data options]
+    (let [path* (rootify fs path)]
+      (try
 
-  (<-file
-    [this path]
-    nil)
+        (io/make-parents path*)
+        (apply spit path* data (mapcat identity options))
+
+        (catch Exception e
+          (fault ::filesystem-write-error
+                 {:context {:path path*
+                            :options options}
+                  :exception e})))))
+
+  (read-file!
+    [{:keys [fs]} path]
+    (let [path* (rootify fs path)]
+      (try
+
+        (slurp path*)
+
+        (catch Exception e
+          (fault ::filesystem-read-error
+                 {:context {:path path*}
+                  :exception e})))))
 
   (cleanup!
-    [this]
-    this))
+    [{:keys [fs] :as this}]
+    (when (:cleanup? fs)
+      (ifs/delete-directory! this "/"))))
 
+(defn create-filesystem
+  "Create a filesystem"
+  [{:keys [root] :as options}]
+  (s/assert ::fs options)
+  (let [root* (if (not (str/blank? root))
+                root
+                filesystem-default-root)]
+
+    (->Filesystem (assoc options
+                         :root root*))))
