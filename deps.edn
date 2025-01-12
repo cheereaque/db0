@@ -1,13 +1,15 @@
 {:deps {; Bases
-        poly/api {:local/root "bases/api"}
+        db0/api {:local/root "bases/api"}
 
         ; Components
-        poly/http-server {:local/root "components/http-server"}
-        poly/logger {:local/root "components/logger"}
+        db0/http-server {:local/root "components/http-server"}
+        db0/logger {:local/root "components/logger"}
         db0/filesystem {:local/root "components/filesystem"}
 
-        poly/database {:local/root "components/database"}
-        poly/table {:local/root "components/table"}
+        db0/database {:local/root "components/database"}
+        db0/table {:local/root "components/table"}
+
+        db0/fault {:local/root "components/fault"}
 
         ; Libraries
         duct/core {:mvn/version "0.8.1"}
@@ -25,25 +27,22 @@
 
                  :extra-deps {djblue/portal {:mvn/version "0.58.5"}}}
 
-           :test {:main-opts ["-m" "kaocha.runner"]
-                  :extra-deps {fudje/fudje {:mvn/version "0.9.8"}
+           :test {:extra-deps {fudje/fudje {:mvn/version "0.9.8"}
+
                                polylith-kaocha/kaocha-wrapper
                                {:git/url "https://github.com/imrekoszo/polylith-kaocha"
                                 :git/tag "v0.8.4"
                                 :git/sha "f096de8"
                                 :deps/root "projects/kaocha-wrapper"}}}
 
-           :outdated {:deps {com.github.liquidz/antq {:mvn/version "RELEASE"}}
-                      :main-opts ["-m" "antq.core"]}
+           :outdated {:main-opts ["-m" "antq.core"]
+                      :deps {com.github.liquidz/antq {:mvn/version "RELEASE"}}}
 
            :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
-                  :extra-deps {polylith/clj-poly {:git/url "https://github.com/polyfy/polylith"
-                                                  :git/sha "2d850fb1e0b77ae335a7bd8f96c8f2b2ca18b469"
-                                                  :deps/root "projects/poly"}
+                  :extra-deps {polylith/clj-poly {:mvn/version "0.2.21"}
+
                                polylith-kaocha/test-runner
                                {:git/url "https://github.com/imrekoszo/polylith-kaocha"
                                 :git/tag "v0.8.4"
                                 :git/sha "f096de8"
                                 :deps/root "projects/test-runner"}}}}}
-
-

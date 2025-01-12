@@ -1,0 +1,7 @@
+{:linters {:single-key-in {:level :warning}
+           :shadowed-var {:level :warning}
+           :missing-docstring {:level :warning}
+           :refer-all {:exclude [fudje.sweet]}
+           :unresolved-symbol {:exclude [fact =>]}
+           :consistent-alias {:aliases {}}}
+ :lint-as {failjure.core/try* clj-kondo.lint-as/def-catch-all}}
